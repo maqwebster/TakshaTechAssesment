@@ -1,0 +1,114 @@
+<form validate #form="ngForm" enctype="multipart/form-data" (submit)="onSubmit(form)">
+
+  <div class="row row-space">
+    <div>
+      <div class="input-group">
+
+        <input class="input--style-1" placeholder="First name*"
+               name="first_name" #first_name="ngModel" [(ngModel)]="service.formData.first_name" required />
+
+      </div>
+
+    </div>
+    <div>
+      <div class="input-group">
+        <input class="input--style-2" placeholder="Last name"
+               name="last_name" #last_name="ngModel" [(ngModel)]="service.formData.last_name" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-space">
+    <div>
+      <div class="input-group">
+        <input class="input--style-1" type="email" placeholder="Email*"
+               name="email" #email="ngModel" [(ngModel)]="service.formData.email" email="true" [email]="validateEmail" required />
+
+      </div>
+
+    </div>
+    <div>
+      <div class="input-group">
+        <input class="input--style-2" type="number" placeholder="Phone number"
+               name="phone_number" #phone_number="ngModel" [(ngModel)]="service.formData.phone_number" />
+      </div>
+    </div>
+  </div>
+  <div class="row row-space">
+    <div class="checkbox">
+      <table>
+        <tr>
+          <td>
+            <label>Do you live in the US?*</label>
+            <input type="checkbox" name="live_in_us" id="flexCheckChecked" [(ngModel)]="service.formData.live_in_us"
+                   [ngModelOptions]="{standalone: true}" #live_in_us="ngModel" partial>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <div class="input-group">
+        <input class="input--style-1" placeholder="Git profile*"
+               name="git_profile" #git_profile="ngModel" [(ngModel)]="service.formData.git_profile" required />
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-space">
+    <div>
+      <div class="form-outline">
+        <textarea class="form-control input--style-1" rows="4" cols="70" placeholder="About you*"
+                  name="about_you" #about_you="ngModel" [(ngModel)]="service.formData.about_you" required></textarea>
+
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row row-space">
+    <table>
+      <tr>
+        <td>
+          <div>
+            <div class="input-group">
+              <input type="file" id="cvFile" name="cv"
+                     (change)="onFileChanged($event)" #cv="ngModel" [(ngModel)]="service.formData.cv" accept=".pdf" required>
+              <div *ngIf="form.invalid; then trueB; else falseB"></div>
+              <ng-template #trueB><label class="form-label validationColor">Upload CV*</label></ng-template>
+              <ng-template #falseB><label class="form-label">Upload CV*</label></ng-template>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div>
+            <div class="input-group">
+
+              <input type="file" id="coverFile" name="cover_letter"
+                     (change)="onFileChanged($event)" accept=".pdf">
+              <label class="form-label">Upload Cover Letter</label>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <label *ngIf="email.errors?.email" class="validationColor">
+    Invalid Email
+  </label>
+  <br />
+
+  <div class="validationColor">
+    {{isValidated ? '':message}}
+  </div>
+  <div *ngIf="success; then trueMsg; else falseMsg"></div>
+  <ng-template #trueMsg><h5 class="successColor">{{ success ? 'Saved Successfully' : '' }}</h5></ng-template>
+  <ng-template #falseMsg><h5 class="validationColor">{{ success ? '' : serverMessage }}</h5></ng-template>
+
+  <div class="p-t-20">
+    <button class="btn btn--radius btn--green" [disabled]="form.invalid" type="submit">Submit</button>
+  </div>
+</form>
